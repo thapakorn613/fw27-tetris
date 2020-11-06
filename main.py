@@ -144,31 +144,23 @@ def findInList(list, platform):
 
 
 def rotateR(shape):
-
-    return  # ???
+    cols = len(shape[0])
+    return [[m[i] for m in reversed(shape)] for i in range(cols)]
 
 
 def rotateL(shape):
-
-    return  # ???
+    newgrid = list(map(list, zip(*shape)))[::-1]
+    return  newgrid
 
 
 def animate_drop(shape, board, c):
-    
     n = len(board)
-    m = len(board[0])
-    # ! 4 - 1 = 3
-
     stack_board = []
-    
     if(c != 0):
         for a in range(len(board)):
             if (board[a][c] != 0):
                 break
             new_board = [[x for x in y] for y in board]
-            # ? 3 
-            
-            # check_em = []
             for k in range(len(shape)):
                 for q in range(len(shape[0])):
                     if ( (k+a+1) < n  and  shape[k][q] != 0 and new_board[k+a+1][q+c] != 0 ):
@@ -178,9 +170,6 @@ def animate_drop(shape, board, c):
                                     new_board[a+i][j+c] = shape[i][j]
                         stack_board.append(new_board)
                         return stack_board
-                    
-            
-            # ? c = 1
             for i in range(len(shape)):
                 for j in range(len(shape[0])):
                     if(shape[i][j] != 0):
@@ -189,7 +178,7 @@ def animate_drop(shape, board, c):
                         except:
                             return stack_board
             
-            print("new_board :",new_board)
+            # print("new_board :",new_board)
             stack_board.append(new_board)
         return stack_board
     else:
