@@ -1,8 +1,8 @@
 # fw27-tetris
 
-function : complete
+# function : complete
 - rotateR 
 - rotateL
 - animate_drop
-function : pending
+# function : pending
 - animate_clear
