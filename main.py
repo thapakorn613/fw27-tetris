@@ -135,7 +135,6 @@ def pgame():
 
 # -------------------------------------------------------
 
-
 def findInList(list, platform):
     for i in range(len(list)):
         if list[i] == platform:
@@ -150,7 +149,7 @@ def rotateR(shape):
 
 def rotateL(shape):
     newgrid = list(map(list, zip(*shape)))[::-1]
-    return  newgrid
+    return newgrid
 
 
 def animate_drop(shape, board, c):
@@ -163,7 +162,7 @@ def animate_drop(shape, board, c):
             new_board = [[x for x in y] for y in board]
             for k in range(len(shape)):
                 for q in range(len(shape[0])):
-                    if ( (k+a+1) < n  and  shape[k][q] != 0 and new_board[k+a+1][q+c] != 0 ):
+                    if ((k+a+1) < n and shape[k][q] != 0 and new_board[k+a+1][q+c] != 0):
                         for i in range(len(shape)):
                             for j in range(len(shape[0])):
                                 if(shape[i][j] != 0):
@@ -177,18 +176,66 @@ def animate_drop(shape, board, c):
                             new_board[a+i][j+c] = shape[i][j]
                         except:
                             return stack_board
-            
-            # print("new_board :",new_board)
             stack_board.append(new_board)
         return stack_board
     else:
         return []
 
 
+def addValueToList(elem, count):
+    temp = []
+    for i in range(count):
+        temp.append(elem)
+    return temp
+
+
+def checkAllClear(listTemp):
+    for i in range(len(listTemp)-1):
+        if(listTemp[i] == 1 and listTemp[i+1] == 0):
+            return False
+    return True
+
+
+def checkPosition(board):
+    countCheck = []
+    for i in range(len(board)):
+        if(all(elem == 0 for elem in board[i])):
+            countCheck.append(0)
+        else:
+            countCheck.append(1)
+    return countCheck
+
+
 def animate_clear(board):
-
-    return  # ???
-
+    listCheckFull = []
+    countCheck = 0
+    temp_board = board
+    for i in range(len(board)):
+        if(all(elem != 0 for elem in board[i])):
+            countCheck += 1
+            for j in range(len(board[i])):
+                temp_board[i][j] = 0
+    
+    listCheckFull = checkPosition(temp_board)
+    stackBoard = []
+    if (countCheck == 0):
+        return []
+    else:
+        fisrtRound = True
+        while(True):
+            if (fisrtRound):
+                new_board = temp_board
+                stackBoard.append(new_board[:])
+                countCheckSlide = listCheckFull
+                fisrtRound = False
+            for i in range(len(temp_board)-1):
+                if (countCheckSlide[i] == 1 and countCheckSlide[i+1] == 0):
+                    new_board[i+1] = new_board[i]
+                    new_board[i] = addValueToList(0, len(new_board[i]))
+            countCheckSlide = checkPosition(new_board)
+            stackBoard.append(new_board[:])
+            if(checkAllClear(countCheckSlide)):
+                return stackBoard
 
 # ----------------------------------------------
 
